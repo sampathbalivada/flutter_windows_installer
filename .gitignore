@@ -3,3 +3,5 @@ sdk/
 
 FlutterInstaller/bin/
 FlutterInstaller/obj/
+
+FlutterInstaller/ComponentsGenerated.wxs
