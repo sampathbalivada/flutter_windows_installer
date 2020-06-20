@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  
+  <!-- Fixed Upgrade ID -->
+  <?define UpgradeCode = "{122597D6-9A61-458A-AAA8-31B734200785}"?>
+
+  <?define BuildVersion=0.0.1?>
+  
+  <!-- Define main product-->
+	<Product Id="{F227A043-B1CE-4B69-868A-AB2C8DEA8905}" 
+           Name="!(loc.ProductName)" 
+           Language="!(loc.Language)" 
+           Version="$(var.BuildVersion)" 
+           Manufacturer="!(loc.Company)" 
+           UpgradeCode="$(var.UpgradeCode)"
+           Codepage="1252">
+    
+    <!-- Provide package details -->
+		<Package InstallerVersion="200" 
+             Compressed="yes" 
+             InstallScope="perMachine"
+             Platform="x64"
+             Manufacturer="!(loc.Company)"
+             Description="!(loc.Description)"
+             Keywords="!(loc.Keywords)"
+             />
+    <!-- Downgrade error message-->
+		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)" />
+
+    <!-- Include .cab file into msi -->
+		<MediaTemplate 
+      EmbedCab="yes"
+      />
+
+    <!-- Define icon -->
+    <Icon Id="icon.ico" SourceFile=".\assets\icon.ico"/>
+
+    <!-- Add icon.ico for the installer (shows up in Add/Remove programs)-->
+    <Property Id="ARPPRODUCTICON">icon.ico</Property>
+    <!-- Help/Support website shown in the Add/Remove programs-->
+    <Property Id="ARPURLINFOABOUT">https://flutter.dev</Property>
+
+    <!-- Create a basic UI for the installer -->
+    <UIRef Id="WixUI_Minimal" />
+
+    <!-- Change the installer UI background images -->
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\assets\Background.bmp" />
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\assets\Banner.bmp" />
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\assets\License.rtf" />
+
+    <Feature Id="ProductFeature" Title="FlutterSDK" Level="1">
+      
+			<ComponentGroupRef Id="SDKComponents" />
+      <Component Id="SDKPATH" Guid="{1F1B024D-64E2-4C4E-A975-91CFDC420D6B}" Directory="INSTALLFOLDER" KeyPath="yes">
+        <Environment Id="PATH" Name="PATH" Value="[INSTALLFOLDER]\bin" Permanent="no" Part="last" Action="set" System="no"/>
+      </Component>
+		
+    </Feature>
+    
+	</Product>
+	
+</Wix>

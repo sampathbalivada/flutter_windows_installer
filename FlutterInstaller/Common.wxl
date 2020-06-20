@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+
+  <String Id="Company">Flutter</String>
+
+  <String Id="ProductName">Flutter SDK</String>
+
+  <String Id="Description">Flutter is Google’s UI toolkit for building beautiful, natively compiled applications for mobile, web, and desktop from a single codebase.</String>
+  <String Id="Keywords">flutter,sdk,ui,installer,windows</String>
+
+  <String Id="DowngradeErrorMessage">A newer version of Flutter is already installed.</String>
+
+  <String Id="Language">1033</String>
+
+</WixLocalization>

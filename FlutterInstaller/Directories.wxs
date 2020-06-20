@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+
+      <!-- Usually the C:\flutter directory -->
+      <Directory Id="WINDOWSVOLUME" >
+        <Directory Id="INSTALLFOLDER" Name="flutter">
+        </Directory>
+      </Directory>
+
+    </Directory>
+    <!-- Sets the WINDOWSVOLUME constant to the users Root Volume -->
+    <SetDirectory Id="WINDOWSVOLUME" Value="[WindowsVolume]" />
+  </Fragment>
+
+</Wix>
