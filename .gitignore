@@ -1,7 +1,4 @@
 .vs/
-sdk/
 
-FlutterInstaller/bin/
-FlutterInstaller/obj/
-
-FlutterInstaller/ComponentsGenerated.wxs
+bin/
+obj/

@@ -41,17 +41,38 @@
       <Name>WixUIExtension</Name>
     </WixExtension>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DownloadAndUnpack\DownloadAndUnpack.csproj">
+      <Name>DownloadAndUnpack</Name>
+      <Project>{769b6dc3-1cd5-4afc-8841-3dd80b2e9021}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\RemoveFilesAndRegistry\RemoveFilesAndRegistry.csproj">
+      <Name>RemoveFilesAndRegistry</Name>
+      <Project>{9a6a3a2e-9271-4291-9718-b532a52e0cf7}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\RemoveFiles\RemoveFiles.csproj">
+      <Name>RemoveFiles</Name>
+      <Project>{fb96a676-9570-491c-8998-824fba6fa5dc}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
   <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">
     <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
   </Target>
   <Target Name="BeforeBuild">
-    <PropertyGroup>
-      <DefineConstants>BasePath=..\sdk\flutter</DefineConstants>
-    </PropertyGroup>
-    <!-- Harvest file components from SDK folder -->
-    <HeatDirectory OutputFile="ComponentsGenerated.wxs" DirectoryRefID="INSTALLFOLDER" ComponentGroupName="SDKComponents" SuppressCom="true" Directory="..\sdk\flutter" SuppressFragments="true" SuppressRegistry="true" SuppressRootDirectory="true" AutoGenerateGuids="false" GenerateGuidsNow="true" ToolPath="$(WixToolPath)" PreprocessorVariable="var.BasePath" />
   </Target>
   <Target Name="AfterBuild">
   </Target>

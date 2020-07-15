@@ -4,10 +4,10 @@
   <!-- Fixed Upgrade ID -->
   <?define UpgradeCode = "{122597D6-9A61-458A-AAA8-31B734200785}"?>
 
-  <?define BuildVersion=0.0.1?>
+  <?define BuildVersion=0.0.0.0?>
   
   <!-- Define main product-->
-	<Product Id="{F227A043-B1CE-4B69-868A-AB2C8DEA8905}" 
+	<Product Id="{714D2060-D72C-4CDD-992C-0F6AA6819772}" 
            Name="!(loc.ProductName)" 
            Language="!(loc.Language)" 
            Version="$(var.BuildVersion)" 
@@ -39,7 +39,9 @@
     <Property Id="ARPPRODUCTICON">icon.ico</Property>
     <!-- Help/Support website shown in the Add/Remove programs-->
     <Property Id="ARPURLINFOABOUT">https://flutter.dev</Property>
-
+    <!-- Change Exit Dialog Information -->
+    <Property Id="WIXUI_EXITDIALOGOPTIONALTEXT" Value="!(loc.ExitMessage)"/>
+    
     <!-- Create a basic UI for the installer -->
     <UIRef Id="WixUI_Minimal" />
 
@@ -47,12 +49,64 @@
     <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\assets\Background.bmp" />
     <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\assets\Banner.bmp" />
     <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\assets\License.rtf" />
+    
+    <!-- Disable Repair/Modify from Control Panel -->
+    <Property Id="ARPNOREPAIR" Value="yes" Secure="yes" />
 
+    <!-- Add custom action DLL -->
+    <Binary Id="DownloadAndUnpackDLL" SourceFile="$(var.DownloadAndUnpack.TargetDir)DownloadAndUnpack.CA.dll" />
+    <Binary Id="RemoveFilesDLL" SourceFile="$(var.RemoveFiles.TargetDir)RemoveFiles.CA.dll" />
+    <Binary Id="RemoveFilesAndRegistryDLL" SourceFile="$(var.RemoveFilesAndRegistry.TargetDir)RemoveFilesAndRegistry.CA.dll" />
+
+    <!-- Custom Action that points to the binary -->
+    <CustomAction Id="CA_DownloadAndUnpack"
+                  BinaryKey="DownloadAndUnpackDLL"
+                  DllEntry="DownloadAndUnpack"
+                  Execute="deferred"
+                  Return="check"
+                  />
+    <CustomAction Id="CA_RemoveFiles"
+                  BinaryKey="RemoveFilesDLL"
+                  DllEntry="RemoveFiles"
+                  Execute="deferred"
+                  Impersonate="no"
+                  Return="ignore"
+                  />
+    <CustomAction Id="CA_Rollback"
+                  BinaryKey="RemoveFilesDLL"
+                  DllEntry="RemoveFiles"
+                  Execute="rollback"
+                  Impersonate="no"
+                  Return="ignore"
+                  />
+    <CustomAction Id="CA_RemoveFilesAndRegistry"
+                  BinaryKey="RemoveFilesAndRegistryDLL"
+                  DllEntry="RemoveFilesAndRegistry"
+                  Execute="deferred"
+                  Impersonate="no"
+                  Return="ignore"
+                  />
+    
+    <!-- Note: Use InstallUISequence when necessary to run a Custom Action during the info gathering process -->
+    <!-- InstallExecuteSequence determines the sequence during the actual installation process -->
+    <InstallExecuteSequence>
+      <Custom Action="CA_Rollback" Before="InstallFinalize">(NOT Installed) AND (NOT REMOVE)</Custom>
+      <Custom Action="CA_DownloadAndUnpack" After="CA_Rollback">(NOT Installed) AND (NOT REMOVE)</Custom>
+      <Custom Action="CA_RemoveFilesAndRegistry" After="CA_DownloadAndUnpack">(NOT Installed) AND (NOT REMOVE)</Custom>
+
+      <Custom Action="CA_RemoveFiles" After="InstallInitialize">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
+    </InstallExecuteSequence>
+
+    <!-- Update UI to reflect the current status -->
+    <UI>
+      <ProgressText Action="CA_DownloadAndUnpack">Downloading and unpacking SDK archive...</ProgressText>
+    </UI>
+    
     <Feature Id="ProductFeature" Title="FlutterSDK" Level="1">
       
 			<ComponentGroupRef Id="SDKComponents" />
       <Component Id="SDKPATH" Guid="{1F1B024D-64E2-4C4E-A975-91CFDC420D6B}" Directory="INSTALLFOLDER" KeyPath="yes">
-        <Environment Id="PATH" Name="PATH" Value="[INSTALLFOLDER]\bin" Permanent="no" Part="last" Action="set" System="no"/>
+        <Environment Id="PATH" Name="PATH" Value="[INSTALLFOLDER]bin" Permanent="no" Part="first" Action="set" System="no"/>
       </Component>
 		
     </Feature>
