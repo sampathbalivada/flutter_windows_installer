@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DownloadAndUnpack")]
+[assembly: AssemblyTitle("DownloadSDK")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DownloadAndUnpack")]
+[assembly: AssemblyProduct("DownloadSDK")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("769b6dc3-1cd5-4afc-8841-3dd80b2e9021")]
+[assembly: Guid("73387ece-fefd-49d3-9c20-cdc219b245fa")]
 
 // Version information for an assembly consists of the following four values:
 //

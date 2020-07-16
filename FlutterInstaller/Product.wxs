@@ -54,14 +54,21 @@
     <Property Id="ARPNOREPAIR" Value="yes" Secure="yes" />
 
     <!-- Add custom action DLL -->
-    <Binary Id="DownloadAndUnpackDLL" SourceFile="$(var.DownloadAndUnpack.TargetDir)DownloadAndUnpack.CA.dll" />
+    <Binary Id="DownloadSDKDLL" SourceFile="$(var.DownloadSDK.TargetDir)DownloadSDK.CA.dll" />
+    <Binary Id="UnpackSDKDLL" SourceFile="$(var.UnpackSDK.TargetDir)UnpackSDK.CA.dll" />
     <Binary Id="RemoveFilesDLL" SourceFile="$(var.RemoveFiles.TargetDir)RemoveFiles.CA.dll" />
     <Binary Id="RemoveFilesAndRegistryDLL" SourceFile="$(var.RemoveFilesAndRegistry.TargetDir)RemoveFilesAndRegistry.CA.dll" />
 
     <!-- Custom Action that points to the binary -->
-    <CustomAction Id="CA_DownloadAndUnpack"
-                  BinaryKey="DownloadAndUnpackDLL"
-                  DllEntry="DownloadAndUnpack"
+    <CustomAction Id="CA_DownloadSDK"
+                  BinaryKey="DownloadSDKDLL"
+                  DllEntry="DownloadSDK"
+                  Execute="deferred"
+                  Return="check"
+                  />
+    <CustomAction Id="CA_UnpackSDK"
+                  BinaryKey="UnpackSDKDLL"
+                  DllEntry="UnpackSDK"
                   Execute="deferred"
                   Return="check"
                   />
@@ -91,20 +98,21 @@
     <!-- InstallExecuteSequence determines the sequence during the actual installation process -->
     <InstallExecuteSequence>
       <Custom Action="CA_Rollback" Before="InstallFinalize">(NOT Installed) AND (NOT REMOVE)</Custom>
-      <Custom Action="CA_DownloadAndUnpack" After="CA_Rollback">(NOT Installed) AND (NOT REMOVE)</Custom>
-      <Custom Action="CA_RemoveFilesAndRegistry" After="CA_DownloadAndUnpack">(NOT Installed) AND (NOT REMOVE)</Custom>
-
+      <Custom Action="CA_DownloadSDK" After="CA_Rollback">(NOT Installed) AND (NOT REMOVE)</Custom>
+      <Custom Action="CA_UnpackSDK" After="CA_Rollback">(NOT Installed) AND (NOT REMOVE)</Custom>
+      <Custom Action="CA_RemoveFilesAndRegistry" After="CA_UnpackSDK">(NOT Installed) AND (NOT REMOVE)</Custom>
       <Custom Action="CA_RemoveFiles" After="InstallInitialize">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
     </InstallExecuteSequence>
 
     <!-- Update UI to reflect the current status -->
     <UI>
-      <ProgressText Action="CA_DownloadAndUnpack">Downloading and unpacking SDK archive...</ProgressText>
+      <ProgressText Action="CA_DownloadSDK">Downloading SDK... (this might take a while depending on your internet)</ProgressText>
+      <ProgressText Action="CA_UnpackSDK">Extracting Files... (this usually takes 10-15 minutes)</ProgressText>
     </UI>
     
     <Feature Id="ProductFeature" Title="FlutterSDK" Level="1">
       
-			<ComponentGroupRef Id="SDKComponents" />
+			<!--<ComponentGroupRef Id="SDKComponents" />-->
       <Component Id="SDKPATH" Guid="{1F1B024D-64E2-4C4E-A975-91CFDC420D6B}" Directory="INSTALLFOLDER" KeyPath="yes">
         <Environment Id="PATH" Name="PATH" Value="[INSTALLFOLDER]bin" Permanent="no" Part="first" Action="set" System="no"/>
       </Component>

@@ -28,7 +28,6 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ComponentsGenerated.wxs" />
     <Compile Include="Directories.wxs" />
     <Compile Include="Product.wxs" />
   </ItemGroup>
@@ -42,9 +41,9 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DownloadAndUnpack\DownloadAndUnpack.csproj">
-      <Name>DownloadAndUnpack</Name>
-      <Project>{769b6dc3-1cd5-4afc-8841-3dd80b2e9021}</Project>
+    <ProjectReference Include="..\DownloadSDK\DownloadSDK.csproj">
+      <Name>DownloadSDK</Name>
+      <Project>{73387ece-fefd-49d3-9c20-cdc219b245fa}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
@@ -61,6 +60,14 @@
     <ProjectReference Include="..\RemoveFiles\RemoveFiles.csproj">
       <Name>RemoveFiles</Name>
       <Project>{fb96a676-9570-491c-8998-824fba6fa5dc}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\UnpackSDK\UnpackSDK.csproj">
+      <Name>UnpackSDK</Name>
+      <Project>{c7db64fd-31f2-41a3-aaff-c459cadd1bda}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>

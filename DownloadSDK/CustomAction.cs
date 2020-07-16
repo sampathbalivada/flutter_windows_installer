@@ -4,41 +4,33 @@ using System.Net;
 using System.Text;
 using System.IO;
 using Newtonsoft.Json;
-using Ionic.Zip;
 
 namespace DownloadAndUnpack
 {
     public class CustomActions
     {
         [CustomAction]
-        public static ActionResult DownloadAndUnpack(Session session)
+        public static ActionResult DownloadSDK(Session session)
         {
-            string path = @"C:\flutter";
+            string basePath = @"C:\flutter";
             WebClient client = new WebClient();
             try
-            {   
+            {
                 // Check if the requried directory exists and create the directory if it doesn't
-                if (!Directory.Exists(path))
+                if (!Directory.Exists(basePath))
                 {
-                    Directory.CreateDirectory(path);
+                    Directory.CreateDirectory(basePath);
                 }
 
                 // Use this in release mode
-                client.DownloadFile(InstallerLink.GetLink(), path + @"\flutter_sdk.zip");
+                client.DownloadFile(InstallerLink.GetLink(), basePath + @"\flutter_sdk.zip");
 
                 // Use this when debugging using a local server
-                //client.DownloadFile("http://127.0.0.1:8000/flutter_sdk.zip", path + @"\flutter_sdk.zip");
+                //client.DownloadFile("http://127.0.0.1:8000/flutter_sdk.zip", basePath + @"\flutter_sdk.zip");
 
-                // Extract flutter_sdk.zip to C:\
-                using (ZipFile zipFile = new ZipFile(path + @"\flutter_sdk.zip"))
-                {
-                    foreach (ZipEntry e in zipFile)
-                    {
-                        e.Extract(@"C:\");
-                    }
-                }
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 session.Log(e.ToString());
                 return ActionResult.Failure;
             }
@@ -46,7 +38,7 @@ namespace DownloadAndUnpack
         }
     }
 
-    
+
 
     public class InstallerLink
     {
@@ -81,9 +73,9 @@ namespace DownloadAndUnpack
 
             // Find the archive location of current stable release
             string archiveLocation = "";
-            for(int i=0; i<deserializedData.releases.Length; ++i)
+            for (int i = 0; i < deserializedData.releases.Length; ++i)
             {
-                if(deserializedData.releases[i].hash == deserializedData.current_release.stable)
+                if (deserializedData.releases[i].hash == deserializedData.current_release.stable)
                 {
                     archiveLocation = deserializedData.releases[i].archive;
                 }
