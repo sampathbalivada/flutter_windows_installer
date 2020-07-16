@@ -4,7 +4,11 @@ Flutter is Google’s UI toolkit for building beautiful, natively compiled appli
 
 For more info on Flutter head over to [https://flutter.dev](https://flutter.dev)
 
-### System Requirements
+<br/>
+
+
+
+## System Requirements
 
 To install and run Flutter, your development environment must meet these minimum requirements:
 
@@ -21,8 +25,14 @@ To install and run Flutter, your development environment must meet these minimum
   - [Git for Windows](https://git-scm.com/download/win) 2.x, with the **Use Git from the Windows Command Prompt** option.
 
     If Git for Windows is already installed, make sure you can run `git` commands from the command prompt or PowerShell.
+    
+    
 
-### Installation Steps
+<br />
+
+
+
+## Installation Steps
 
 1. Download and run the flutter installer from the below link
 
@@ -34,9 +44,15 @@ To install and run Flutter, your development environment must meet these minimum
 
    ```$ flutter doctor```
 
-   For more information about ``flutter doctor`` visit [https://flutter.dev/docs/get-started/install/windows#run-flutter-doctor](https://flutter.dev/docs/get-started/install/windows#run-flutter-doctor)
+   *For more information about ``flutter doctor`` visit [https://flutter.dev/docs/get-started/install/windows#run-flutter-doctor](https://flutter.dev/docs/get-started/install/windows#run-flutter-doctor)*
+   
+   
 
-### Troubleshooting
+<br />
+
+
+
+## Troubleshooting
 
 1. The flutter installer is taking too much time on the **Extracting Files** page.
 
@@ -49,6 +65,10 @@ To install and run Flutter, your development environment must meet these minimum
 3. My problem isn't listed here
 
    *If your problem isn't listed here, try creating an issue and make sure to include details about your OS*
+
+<br/>
+
+<br/>
 
 
 
