@@ -4,9 +4,12 @@
   <!-- Fixed Upgrade ID -->
   <?define UpgradeCode = "{122597D6-9A61-458A-AAA8-31B734200785}"?>
 
+  <!-- Versioning for this product is not required as the Flutter SDK will handle upgrades
+   and the version details will be removed from the Registry upon successful install-->
   <?define BuildVersion=0.0.0.0?>
   
   <!-- Define main product-->
+  <!-- The Product GUID is present here -->
 	<Product Id="{714D2060-D72C-4CDD-992C-0F6AA6819772}" 
            Name="!(loc.ProductName)" 
            Language="!(loc.Language)" 

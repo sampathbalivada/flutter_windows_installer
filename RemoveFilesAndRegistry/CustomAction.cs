@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Deployment.WindowsInstaller;
 using Microsoft.Win32;
 
@@ -13,6 +9,7 @@ namespace RemoveFilesAndRegistry
         public static ActionResult RemoveFilesAndRegistry(Session session)
         {
             // Deleting Registy value for Version number
+            // The Product GUID is present here
             RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{714D2060-D72C-4CDD-992C-0F6AA6819772}", true);
 
             // Delete the value
