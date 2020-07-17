@@ -16,7 +16,7 @@
 
 ### ⚠ Important Notes
 
-*The installler is a web installer and it is not required to build a new installer for every release of the Flutter SDK.*
+*The installer is a web installer and it is not required to build a new installer for every release of the Flutter SDK.*
 
 If we need to add features to the installer and if that requires a bump in the installer version number, make sure to update the Id attribute of Product with new GUID in the following locations
 
@@ -37,7 +37,7 @@ If we need to add features to the installer and if that requires a bump in the i
 
 ##### Tests Performed
 
-* Install Fluttter SDK
+* Install Flutter SDK
 * Run ``$ flutter doctor`` from a new terminal
 * Build and run ``hello_world`` app on an emulator or device ([Android Studio](https://developer.android.com/studio) or Android SDK is required to perform this test)
 * Uninstall Flutter SDK
@@ -56,7 +56,7 @@ You can find the build guide in the [BUILDING.md](BUILDING.md) file.
 
 ### Authors
 
-The Flutter Windows Insatller is authored and tested by 
+The Flutter Windows Installer is authored and tested by 
 
 * [@sampathbalivada](https://github.com/sampathbalivada)
 
