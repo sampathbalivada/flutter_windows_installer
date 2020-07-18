@@ -19,7 +19,7 @@
            Codepage="1252">
     
     <!-- Provide package details -->
-		<Package InstallerVersion="200" 
+		<Package InstallerVersion="500" 
              Compressed="yes" 
              InstallScope="perMachine"
              Platform="x64"
@@ -55,14 +55,18 @@
     
     <!-- Disable Repair/Modify from Control Panel -->
     <Property Id="ARPNOREPAIR" Value="yes" Secure="yes" />
+    <!-- Add a checkbox to open README and run flutter doctor on exit and set the default state to checked -->
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Open README and run flutter doctor" />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" />
 
-    <!-- Add custom action DLL -->
+    <!-- Add custom actions DLLs -->
     <Binary Id="DownloadSDKDLL" SourceFile="$(var.DownloadSDK.TargetDir)DownloadSDK.CA.dll" />
     <Binary Id="UnpackSDKDLL" SourceFile="$(var.UnpackSDK.TargetDir)UnpackSDK.CA.dll" />
     <Binary Id="RemoveFilesDLL" SourceFile="$(var.RemoveFiles.TargetDir)RemoveFiles.CA.dll" />
     <Binary Id="RemoveFilesAndRegistryDLL" SourceFile="$(var.RemoveFilesAndRegistry.TargetDir)RemoveFilesAndRegistry.CA.dll" />
+    <Binary Id="OpenREADMEDLL" SourceFile="$(var.OpenREADME.TargetDir)OpenREADME.CA.dll" />
 
-    <!-- Custom Action that points to the binary -->
+    <!-- Custom Actions that point to the binary -->
     <CustomAction Id="CA_DownloadSDK"
                   BinaryKey="DownloadSDKDLL"
                   DllEntry="DownloadSDK"
@@ -96,6 +100,12 @@
                   Impersonate="no"
                   Return="ignore"
                   />
+    <CustomAction Id="CA_OpenREADME"
+                  BinaryKey="OpenREADMEDLL"
+                  DllEntry="OpenREADME"
+                  Impersonate="yes"
+                  Return="ignore"
+                  />
     
     <!-- Note: Use InstallUISequence when necessary to run a Custom Action during the info gathering process -->
     <!-- InstallExecuteSequence determines the sequence during the actual installation process -->
@@ -107,10 +117,12 @@
       <Custom Action="CA_RemoveFiles" After="InstallInitialize">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
     </InstallExecuteSequence>
 
-    <!-- Update UI to reflect the current status -->
     <UI>
+      <!-- Update UI to reflect the current status -->
       <ProgressText Action="CA_DownloadSDK">Downloading SDK... (this might take a while depending on your internet)</ProgressText>
       <ProgressText Action="CA_UnpackSDK">Extracting Files... (this usually takes 10-15 minutes)</ProgressText>
+      <!-- Invoke custom action if Exit Dialog checkbox is in checked state -->
+      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="CA_OpenREADME">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
     </UI>
     
     <Feature Id="ProductFeature" Title="FlutterSDK" Level="1">

@@ -32,6 +32,9 @@ namespace UnpackSDK
                 return ActionResult.Failure;
             }
 
-            return ActionResult.Success;        }
+            //session.Log("Extracted");
+
+            return ActionResult.Success;        
+        }
     }
 }

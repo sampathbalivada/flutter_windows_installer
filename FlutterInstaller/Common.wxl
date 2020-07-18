@@ -10,12 +10,12 @@
 
   <String Id="DowngradeErrorMessage">A newer version of Flutter is already installed.</String>
   <String Id="ExitMessage">
-Run "flutter doctor" from a new command window
-to finish setting up Flutter SDK.
+Run "flutter doctor" to finish setting up Flutter SDK
     
-For more information visit https://bit.ly/flutterdoctorwin
+View the README file for additional information on setting up Flutter SDK on you PC.
   </String>
 
   <String Id="Language">1033</String>
 
 </WixLocalization>
+  
