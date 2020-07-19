@@ -118,9 +118,6 @@
     </InstallExecuteSequence>
 
     <UI>
-      <!-- Update UI to reflect the current status -->
-      <ProgressText Action="CA_DownloadSDK">Downloading SDK... (this might take a while depending on your internet)</ProgressText>
-      <ProgressText Action="CA_UnpackSDK">Extracting Files... (this usually takes 10-15 minutes)</ProgressText>
       <!-- Invoke custom action if Exit Dialog checkbox is in checked state -->
       <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="CA_OpenREADME">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
     </UI>

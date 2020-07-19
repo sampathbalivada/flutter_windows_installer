@@ -10,6 +10,17 @@ namespace UnpackSDK
         [CustomAction]
         public static ActionResult UnpackSDK(Session session)
         {
+            void UnZipProgress(object sender, ExtractProgressEventArgs e)
+            {
+                if (e.EventType == ZipProgressEventType.Extracting_AfterExtractEntry)
+                {
+                    string actionMessage = "Extracting files... (" + e.EntriesExtracted.ToString() + " of " + e.EntriesTotal.ToString() + " files extracted)";
+                    //session.Log(actionMessage);
+                    Record record = new Record("callAddProgressInfo", actionMessage, "");
+                    session.Message(InstallMessage.ActionStart, record);
+                }
+            }
+
             try
             {
                 string path = @"C:\flutter\flutter_sdk.zip";
@@ -19,10 +30,8 @@ namespace UnpackSDK
                     // Extract flutter_sdk.zip to C:\
                     using (ZipFile zipFile = new ZipFile(path))
                     {
-                        foreach (ZipEntry e in zipFile)
-                        {
-                            e.Extract(@"C:\");
-                        }
+                        zipFile.ExtractProgress += UnZipProgress;
+                        zipFile.ExtractAll(@"C:\", ExtractExistingFileAction.OverwriteSilently);
                     }
                 }
             }
@@ -36,5 +45,6 @@ namespace UnpackSDK
 
             return ActionResult.Success;        
         }
+
     }
 }

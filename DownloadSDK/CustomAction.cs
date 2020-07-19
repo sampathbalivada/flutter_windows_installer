@@ -4,6 +4,8 @@ using System.Net;
 using System.Text;
 using System.IO;
 using Newtonsoft.Json;
+using System.Threading;
+using System.ComponentModel;
 
 namespace DownloadAndUnpack
 {
@@ -12,6 +14,30 @@ namespace DownloadAndUnpack
         [CustomAction]
         public static ActionResult DownloadSDK(Session session)
         {
+            void HandleDownloadProgress (object sender, DownloadProgressChangedEventArgs e)
+            {
+                string actionMessage = "Downloading SDK... (" + e.ProgressPercentage.ToString() + "% completed)";
+                //session.Log(actionMessage);
+                Record record = new Record("callAddProgressInfo", actionMessage, "");
+                session.Message(InstallMessage.ActionStart, record);
+
+            }
+
+            void HandleDownloadComplete(object sender, AsyncCompletedEventArgs e)
+            {
+                if(e.Error != null)
+                {
+                    session.Log(e.Error.Message);
+                }
+                Thread.Sleep(10000);
+                lock (e.UserState)
+                {
+                    //releases blocked thread
+                    Monitor.Pulse(e.UserState);
+                }
+            }
+
+
             string basePath = @"C:\flutter";
             WebClient client = new WebClient();
             try
@@ -22,11 +48,19 @@ namespace DownloadAndUnpack
                     Directory.CreateDirectory(basePath);
                 }
 
-                // Use this in release mode
-                client.DownloadFile(InstallerLink.GetLink(), basePath + @"\flutter_sdk.zip");
+                client.DownloadProgressChanged += HandleDownloadProgress;
+                client.DownloadFileCompleted += HandleDownloadComplete;
 
-                // Use this when debugging using a local server
-                //client.DownloadFile("http://127.0.0.1:8000/flutter_sdk.zip", basePath + @"\flutter_sdk.zip");
+                //Uri downloadUri = new Uri("http://127.0.0.1:8000/flutter_sdk.zip");
+                Uri downloadUri = new Uri(InstallerLink.GetLink());
+
+                var syncObject = new Object();
+                lock (syncObject)
+                {
+                    client.DownloadFileAsync(downloadUri, basePath + @"\flutter_sdk.zip", syncObject);
+                    //This will block the thread until download completes
+                    Monitor.Wait(syncObject);
+                }
 
             }
             catch (Exception e)
