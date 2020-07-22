@@ -14,13 +14,17 @@ namespace DownloadAndUnpack
         [CustomAction]
         public static ActionResult DownloadSDK(Session session)
         {
+            int currentProgress = 0;
             void HandleDownloadProgress (object sender, DownloadProgressChangedEventArgs e)
             {
-                string actionMessage = "Downloading SDK... (" + e.ProgressPercentage.ToString() + "% completed)";
-                //session.Log(actionMessage);
-                Record record = new Record("callAddProgressInfo", actionMessage, "");
-                session.Message(InstallMessage.ActionStart, record);
-
+                if(e.ProgressPercentage != currentProgress)
+                {
+                    currentProgress = e.ProgressPercentage;
+                    string actionMessage = "Downloading SDK... (" + currentProgress.ToString() + "% completed)";
+                    //session.Log(actionMessage);
+                    Record record = new Record("callAddProgressInfo", actionMessage, "");
+                    session.Message(InstallMessage.ActionStart, record);
+                }
             }
 
             void HandleDownloadComplete(object sender, AsyncCompletedEventArgs e)

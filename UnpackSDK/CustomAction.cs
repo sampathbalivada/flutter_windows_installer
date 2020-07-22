@@ -14,10 +14,13 @@ namespace UnpackSDK
             {
                 if (e.EventType == ZipProgressEventType.Extracting_AfterExtractEntry)
                 {
-                    string actionMessage = "Extracting files... (" + e.EntriesExtracted.ToString() + " of " + e.EntriesTotal.ToString() + " files extracted)";
-                    //session.Log(actionMessage);
-                    Record record = new Record("callAddProgressInfo", actionMessage, "");
-                    session.Message(InstallMessage.ActionStart, record);
+                    if(e.EntriesExtracted % 50 == 0)
+                    {
+                        string actionMessage = "Extracting files... (" + e.EntriesExtracted.ToString() + " of " + e.EntriesTotal.ToString() + " files extracted)";
+                        //session.Log(actionMessage);
+                        Record record = new Record("callAddProgressInfo", actionMessage, "");
+                        session.Message(InstallMessage.ActionStart, record);
+                    }
                 }
             }
 
