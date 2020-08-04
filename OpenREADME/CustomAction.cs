@@ -14,13 +14,20 @@ namespace OpenREADME
             string[] lines = {
                 "For more information on Flutter Doctor",
                 "visit https://flutter.dev/docs/get-started/install/windows#run-flutter-doctor",
-                " ",
+                "",
                 "For details about installing Android Studio and/or Visual Studio Code visit",
                 "Android Studio - https://developer.android.com/studio",
                 "Visual Studio Code - https://code.visualstudio.com/",
                 "",
+                "Note: Flutter relies on a full installation of Android Studio to supply its Android platform dependencies.",
+                "However, you can write your Flutter apps in a number of editors.",
+                "",
+                "If you've already downloaded and installed your editor,",
+                "follow the link below to setup Flutter plugins",
+                "https://flutter.dev/docs/get-started/editor",
+                "",
                 "To know more about the Flutter SDK",
-                "visit https://flutter.dev"
+                "visit https://flutter.dev",
             };
 
             try
