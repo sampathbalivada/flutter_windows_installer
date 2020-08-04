@@ -44,6 +44,7 @@ namespace DownloadAndUnpack
 
             string basePath = @"C:\flutter";
             WebClient client = new WebClient();
+            client.Headers.Add("user-agent", "Flutter SDK MSI");
             try
             {
                 // Check if the requried directory exists and create the directory if it doesn't
