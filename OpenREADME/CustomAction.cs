@@ -9,7 +9,8 @@ namespace OpenREADME
         [CustomAction]
         public static ActionResult OpenREADME(Session session)
         {
-            var path = @"C:\flutter\InstallREADME.txt";
+            string basePath = System.Environment.GetEnvironmentVariable("USERPROFILE") + @"\flutter";
+            string path = basePath + @"\InstallREADME.txt";
 
             string[] lines = {
                 "For more information on Flutter Doctor",
@@ -32,6 +33,7 @@ namespace OpenREADME
 
             try
             {
+                string flutterBinPath = basePath + @"\bin";
                 // Write contents to the README file.
                 File.WriteAllLines(path, lines);
 
@@ -40,11 +42,11 @@ namespace OpenREADME
                 System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
                 startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
                 startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = @"/C notepad.exe /a C:\flutter\InstallREADME.txt";
+                startInfo.Arguments = @"/C notepad.exe /a "+ basePath + @"\InstallREADME.txt";
                 process.StartInfo = startInfo;
                 process.Start();
 
-                System.Diagnostics.Process.Start("cmd.exe", @"/K SET PATH=%PATH%;C:\flutter\bin & cd C:\flutter\bin & flutter doctor");
+                _ = System.Diagnostics.Process.Start("cmd.exe", "/K SET PATH=\""+ flutterBinPath + "\";%PATH% & cd " + flutterBinPath + @" & flutter doctor");
             }
             catch (Exception e)
             {

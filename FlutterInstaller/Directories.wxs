@@ -5,14 +5,14 @@
     <Directory Id="TARGETDIR" Name="SourceDir">
 
       <!-- Usually the C:\flutter directory -->
-      <Directory Id="WINDOWSVOLUME" >
+      <Directory Id="USERFOLDER" >
         <Directory Id="INSTALLFOLDER" Name="flutter">
         </Directory>
       </Directory>
 
     </Directory>
     <!-- Sets the WINDOWSVOLUME constant to the users Root Volume -->
-    <SetDirectory Id="WINDOWSVOLUME" Value="[WindowsVolume]" />
+    <!--<SetDirectory Id="WINDOWSVOLUME" Value="[WindowsVolume]" />-->
   </Fragment>
 
 </Wix>

@@ -38,6 +38,9 @@
     <!-- Define icon -->
     <Icon Id="icon.ico" SourceFile=".\assets\icon.ico"/>
 
+	<Property Id="USERFOLDER" >
+		<DirectorySearch Id="userProfileSearch" Depth="0" Path="[%USERPROFILE]" />
+	</Property>
     <!-- Add icon.ico for the installer (shows up in Add/Remove programs)-->
     <Property Id="ARPPRODUCTICON">icon.ico</Property>
     <!-- Help/Support website shown in the Add/Remove programs-->
@@ -109,7 +112,7 @@
     
     <!-- Note: Use InstallUISequence when necessary to run a Custom Action during the info gathering process -->
     <!-- InstallExecuteSequence determines the sequence during the actual installation process -->
-    <InstallExecuteSequence>
+	<InstallExecuteSequence>
       <Custom Action="CA_Rollback" Before="InstallFinalize">(NOT Installed) AND (NOT REMOVE)</Custom>
       <Custom Action="CA_DownloadSDK" After="CA_Rollback">(NOT Installed) AND (NOT REMOVE)</Custom>
       <Custom Action="CA_UnpackSDK" After="CA_Rollback">(NOT Installed) AND (NOT REMOVE)</Custom>
@@ -126,7 +129,7 @@
       
 			<!--<ComponentGroupRef Id="SDKComponents" />-->
       <Component Id="SDKPATH" Guid="{1F1B024D-64E2-4C4E-A975-91CFDC420D6B}" Directory="INSTALLFOLDER" KeyPath="yes">
-        <Environment Id="PATH" Name="PATH" Value="[INSTALLFOLDER]bin" Permanent="no" Part="first" Action="set" System="no"/>
+        <Environment Id="PATH" Name="PATH" Value="%USERPROFILE%\flutter\bin" Permanent="no" Part="last" Action="set" System="no"/>
       </Component>
 		
     </Feature>

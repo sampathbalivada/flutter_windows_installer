@@ -12,6 +12,8 @@ namespace RemoveFilesAndRegistry
             // The Product GUID is present here
             RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{714D2060-D72C-4CDD-992C-0F6AA6819772}", true);
 
+            string basePath = System.Environment.GetEnvironmentVariable("USERPROFILE") + @"\flutter";
+
             // Delete the value
             key.DeleteValue("DisplayVersion");
 
@@ -20,7 +22,7 @@ namespace RemoveFilesAndRegistry
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = @"/C DEL /Q/S C:\flutter\flutter_sdk.zip";
+            startInfo.Arguments = @"/C DEL /Q/S "+ basePath + @"\flutter_sdk.zip";
             process.StartInfo = startInfo;
             process.Start();
 

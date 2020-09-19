@@ -41,8 +41,8 @@ namespace DownloadAndUnpack
                 }
             }
 
-
-            string basePath = @"C:\flutter";
+            string basePath = System.Environment.GetEnvironmentVariable("USERPROFILE") + @"\flutter";
+            //string basePath = @"C:\flutter";
             WebClient client = new WebClient();
             client.Headers.Add("user-agent", "Flutter SDK MSI");
             try
@@ -56,7 +56,10 @@ namespace DownloadAndUnpack
                 client.DownloadProgressChanged += HandleDownloadProgress;
                 client.DownloadFileCompleted += HandleDownloadComplete;
 
+                // Local Server - Debug
                 //Uri downloadUri = new Uri("http://127.0.0.1:8000/flutter_sdk.zip");
+                
+                // Fetch from remote - Release
                 Uri downloadUri = new Uri(InstallerLink.GetLink());
 
                 var syncObject = new Object();

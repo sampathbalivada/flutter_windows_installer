@@ -26,7 +26,9 @@ namespace UnpackSDK
 
             try
             {
-                string path = @"C:\flutter\flutter_sdk.zip";
+                string userProfilePath = System.Environment.GetEnvironmentVariable("USERPROFILE");
+                string basePath = userProfilePath + @"\flutter";
+                string path = basePath + @"\flutter_sdk.zip";
                 // Check if the requried directory exists and create the directory if it doesn't
                 if (!Directory.Exists(path))
                 {
@@ -34,7 +36,7 @@ namespace UnpackSDK
                     using (ZipFile zipFile = new ZipFile(path))
                     {
                         zipFile.ExtractProgress += UnZipProgress;
-                        zipFile.ExtractAll(@"C:\", ExtractExistingFileAction.OverwriteSilently);
+                        zipFile.ExtractAll(userProfilePath, ExtractExistingFileAction.OverwriteSilently);
                     }
                 }
             }
@@ -44,7 +46,7 @@ namespace UnpackSDK
                 return ActionResult.Failure;
             }
 
-            //session.Log("Extracted");
+            session.Log("Extracted");
 
             return ActionResult.Success;        
         }
