@@ -36,7 +36,7 @@ To install and run Flutter, your development environment must meet these minimum
 
 1. Download and run the flutter installer from the below link
 
-   [FlutterSDK_Installer-x64-Win.msi](https://github.com/sampathbalivada/flutter_windows_installer/releases/tag/v0.1.0-beta)
+   [FlutterSDK_Installer-x64-Win.msi](https://github.com/sampathbalivada/flutter_windows_installer/releases/tag/v1.0.0-stable)
 
    >  *Note: The Flutter Installer will download a package >600MB in size and unpacks to the **C:\flutter** directory.* 
 
